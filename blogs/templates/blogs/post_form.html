@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block title %}{% if form.instance.pk %}Edit{% else %}Create{% endif %} Post — My Blog{% endblock %}
+{% block content %}
+  <form method="post">
+    <h1>{% if form.instance.pk %}Edit{% else %}Create New{% endif %} Blog Post</h1>
+    {% csrf_token %}
+    <p>
+      <label for="{{ form.title.id_for_label }}">Title</label>
+      {{ form.title }}
+    </p>
+    <p>
+      <label for="{{ form.text.id_for_label }}">Content</label>
+      {{ form.text }}
+    </p>
+    <div class="post-actions">
+      <a class="btn secondary" href="{% url 'blogs:home' %}">Cancel</a>
+      <button type="submit" class="btn">
+        {% if form.instance.pk %}
+          <span>✓</span> Update Post
+        {% else %}
+          <span>✓</span> Create Post
+        {% endif %}
+      </button>
+    </div>
+  </form>
+{% endblock %}
