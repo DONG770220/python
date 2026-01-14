@@ -1,0 +1,7 @@
+flask
+numpy
+pillow
+faiss-cpu
+tqdm
+scipy
+werkzeug

@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+
+{% block title %}搜索结果 - 图像相似检索系统{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto">
+    <!-- 返回按钮和标题 -->
+    <div class="flex items-center justify-between mb-8">
+        <a href="{{ url_for('home') }}" 
+           class="flex items-center text-gray-600 hover:text-indigo-600 transition-colors">
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+            </svg>
+            返回首页
+        </a>
+        <h1 class="text-2xl font-bold text-gray-800">搜索结果</h1>
+        <div class="w-24"></div>
+    </div>
+
+    <!-- 查询图片展示 -->
+    <div class="bg-white rounded-2xl shadow-xl p-6 mb-8">
+        <h2 class="text-lg font-semibold text-gray-700 mb-4 flex items-center">
+            <svg class="w-5 h-5 mr-2 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+            </svg>
+            查询图片
+        </h2>
+        <div class="flex justify-center">
+            <img src="{{ url_for('uploaded_file', filename=query_image) }}" 
+                 alt="Query Image" 
+                 class="max-h-64 rounded-xl shadow-lg">
+        </div>
+    </div>
+
+    <!-- 结果统计 -->
+    <div class="flex items-center justify-between mb-6">
+        <h2 class="text-xl font-semibold text-gray-800">
+            找到 <span class="text-indigo-600">{{ results|length }}</span> 张相似图片
+        </h2>
+        <div class="flex items-center space-x-4">
+            <span class="text-sm text-gray-500">按相似度排序</span>
+        </div>
+    </div>
+
+    <!-- 结果网格 -->
+    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+        {% for result in results %}
+        <div class="result-card bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+            <div class="relative">
+                <img src="{{ url_for('image_file', filename=result.image) }}" 
+                     alt="Similar Image {{ result.rank }}"
+                     class="w-full h-40 object-cover"
+                     loading="lazy">
+                <div class="absolute top-2 left-2 bg-gradient-to-r from-indigo-500 to-purple-600 text-white text-xs font-bold px-2 py-1 rounded-full">
+                    #{{ result.rank }}
+                </div>
+            </div>
+            <div class="p-3">
+                <div class="flex items-center justify-between">
+                    <span class="text-xs text-gray-500 truncate max-w-20" title="{{ result.image }}">
+                        {{ result.image[:15] }}{% if result.image|length > 15 %}...{% endif %}
+                    </span>
+                    <span class="text-sm font-semibold text-indigo-600">
+                        {{ "%.1f"|format(result.similarity) }}%
+                    </span>
+                </div>
+                <div class="mt-2">
+                    <div class="w-full bg-gray-200 rounded-full h-1.5">
+                        <div class="bg-gradient-to-r from-indigo-500 to-purple-600 h-1.5 rounded-full" 
+                             style="width: {{ result.similarity }}%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- 底部操作 -->
+    <div class="mt-8 text-center">
+        <a href="{{ url_for('home') }}" 
+           class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all">
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+            </svg>
+            搜索新图片
+        </a>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // 图片加载错误处理
+    document.querySelectorAll('.result-card img').forEach(img => {
+        img.onerror = function() {
+            this.src = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><rect fill="%23f3f4f6" width="100" height="100"/><text fill="%239ca3af" font-family="Arial" font-size="12" x="50%" y="50%" text-anchor="middle" dy=".3em">图片加载失败</text></svg>';
+        }
+    });
+</script>
+{% endblock %}

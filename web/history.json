@@ -1,0 +1,32 @@
+[
+  {
+    "id": 5,
+    "query_image": "20260114_111031_img_734e7f6bcdce156c1157e75293722881.jpg",
+    "results_count": 50,
+    "timestamp": "2026-01-14 11:10:31"
+  },
+  {
+    "id": 4,
+    "query_image": "20260114_110046_img_cf93dc84e80305430a1e681b27af0f81.jpg",
+    "results_count": 50,
+    "timestamp": "2026-01-14 11:00:47"
+  },
+  {
+    "id": 3,
+    "query_image": "20260114_110023_img_2086bd3c17c6bf4e6b12d8aa1f066aba.jpg",
+    "results_count": 50,
+    "timestamp": "2026-01-14 11:00:23"
+  },
+  {
+    "id": 2,
+    "query_image": "20260114_110004_img_8b672fff6ec015932b9591b966b7e12e.jpg",
+    "results_count": 50,
+    "timestamp": "2026-01-14 11:00:04"
+  },
+  {
+    "id": 1,
+    "query_image": "20260113_132929_img_96e03e407c3a6c838095b2b45103f911.jpg",
+    "results_count": 50,
+    "timestamp": "2026-01-13 13:29:29"
+  }
+]
